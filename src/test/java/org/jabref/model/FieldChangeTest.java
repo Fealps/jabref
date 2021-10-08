@@ -52,4 +52,52 @@ class FieldChangeTest {
         FieldChange fcOther = new FieldChange(entryOther, StandardField.DOI, "fooX", "barX");
         assertNotEquals(fc, fcOther);
     }
+
+
+    @Test
+    void overloadEqualFromObjectIsSelf(){
+        Object result = fc.equals(fc);
+        assertEquals(true,result);
+    }
+
+    @Test
+    void overloadEqualsFromSimilarFieldChange(){
+        FieldChange fcSimilar = new FieldChange(entry, StandardField.DOI, "foo", "bar");
+        boolean result = fc.equals(fcSimilar);
+        assertEquals(true,result);
+    }
+
+    @Test
+    void overloadEqualsFieldChangeHasDifferentOldValue(){
+        FieldChange fNew = new FieldChange(entry, StandardField.DOI, "bar", "bar");
+        boolean result = fNew.equals(fc);
+        assertEquals(false,result);
+    }
+
+    @Test
+    void overloadEqualsFromFieldChangeHasDifferentField(){
+        FieldChange fNew = new FieldChange(entry, StandardField.ABSTRACT, "foo", "bar");
+        boolean result = fNew.equals(fc);
+        assertEquals(false,result);
+    }
+
+    @Test
+    void overloadEqualsFromFieldChangeHasNullNewValue(){
+        FieldChange fNew = new FieldChange(entry, StandardField.DOI, "foo", "barX");
+        boolean result = fNew.equals(fc);
+        assertEquals(false,result);
+    }
+    @Test
+    void overloadEqualsFromFieldChangeHasDifferentEntry(){
+        FieldChange fNew = new FieldChange(entryOther, StandardField.DOI, "foo", "bar");
+        boolean result = fNew.equals(fc);
+        assertEquals(false,result);
+    }
+
+    @Test
+    void overloadEqualsFromFieldChangeAreSimilarWithDifferentNewValues(){
+        FieldChange fNew = new FieldChange(entry, StandardField.DOI, "foo", "barX");
+        boolean result = fNew.equals(fc);
+        assertEquals(false,result);
+    }
 }
